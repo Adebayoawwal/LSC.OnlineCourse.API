@@ -6,6 +6,15 @@ namespace LSC.OnlineCourse.API
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            var configuration=builder.Configuration;
+
+
+            builder.Services.AddDbContextPool<OnlineCourseDbContext>(options =>{
+                options.UseSqlServer(
+                    configuration.GetConnectString("DbContext"),
+                    provideroptions => provideroptions.EnableRetryOnFailure()
+                );
+            });
 
             // Add services to the container.
 
